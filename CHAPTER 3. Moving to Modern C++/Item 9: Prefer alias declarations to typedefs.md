@@ -87,7 +87,7 @@
 如果你曾经做过任何模板元编程(TMP)，那么几乎可以肯定地说，你需要获取模板类型参数并根据它们创建修改过的类型。例如，给定某个类型T，你可能希望去掉T包含的任何常量或者引用限定词，例如，你可能希望将const std:: string&转换成std::string。或者，你可能希望将const添加到一个类型或将其转换为lvalue引用，例如，将Widget转换为const Widget或转换为widget&。（如果你没有做过任何TMP，那就太糟糕了，因为如果你想成为一个真正高效的c++程序员，你至少需要熟悉c++这方面的基础知识，你可以看看实际在用的TMP的一些实例，包括我刚才提到的类型转换这种的，以及在Item 23和Item 27中提到的。）
 
 C++11为你提供了执行这类类型转换的工具，通过type traits的形式，后者是模板的一种细分类，位于头文件\<type_traits\>。那个头文件里有很多type traits，它们中并不是都能进行这种转换，其中有一些确实提供可预测的接口。给定一个你想实施转换的类型T，结果类型变为std::transformation\<T\>::type类型。例如：
-```cpp
+```cpp 
     std::remove_const<T>::type              // yields T from const T
     std::remove_reference<T>::type          // yields T from T& and T&&
     std::add_lvalue_reference<T>::type      // yields T& from T
@@ -97,7 +97,7 @@ C++11为你提供了执行这类类型转换的工具，通过type traits的形�
 在这里我的动机并不是要给你一个关于type traits的教程。而是，每次在应用这些转换时应注意结束时写上“::type”。如果将它们应用于模板中的形参类型（在实际代码中通常是这样使用它们的），则还必须在每次使用之前加上typename。这两个语法减速带存在的原因是，在C++11中type traits是通过在模板structs中嵌套typedefs实现的。是的，没错，他们是用类型同义词技术——我试图说明你们不如alias template的那个——实现的。
 
 这是有历史原因的，但我们会跳过它(它很无聊，我保证)，因为标准化委员会姗姗来迟地认识到alias templates是更可行的办法，并且，在C++14中为所有C++11中的类型转换加进了对应的模板。这些别名有一个共同的形式：对于C++11中每个转换std::transformation<T>::type，有一个对应的C++14的alias templates，名为std::transformation_t。例子将阐明我的意思：
-```cpp   
+```cpp  
     std::remove_const<T>::type              // C++11: const T → T
     std::remove_const_t<T>                  // C++14 equivalent
     std::remove_reference<T>::type          // C++11: T&/T&& → T
