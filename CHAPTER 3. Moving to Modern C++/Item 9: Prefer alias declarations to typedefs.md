@@ -82,7 +82,7 @@
         …                                                   // a data member!
     };
 ```
-可以看到，MyAllocList<Wine>::type并不指涉一个类型。如果Widget要用Wine实例化，在Widget模板内的MyAllocList<T>::type将指涉一个成员数据成员，而不是一个类型。因此，在Widget模板内部，无论是否MyAllocList<T>::type指涉一个依附于T的类型，编译器都坚持认为它是一个类型并在它前面加上typename。
+如你所见，MyAllocList\<Wine\>::type并不指涉一个类型。如果Widget用Wine实例化，在Widget模板内的MyAllocList\<T>\::type将指涉一个成员数据，而不是一个类型。因此，在Widget模板内部，无论MyAllocList\<T\>::type是否指涉一个忠实地依附于T的类型，这也就是编译器们都坚持主张———通过在前面加上typename使它成为是一个类型——的原因。
 
 如果您曾经做过任何模板元编程(TMP)，那么几乎可以肯定地说，您需要获取模板类型参数并根据它们创建修改过的类型。例如，给定某个类型T，您可能希望去掉T包含的任何常量或者引用限定词，例如，您可能希望将const std:: string&std::string转换成std::string。或者，您可能希望将const添加到一个类型或将其转换为lvalue引用，例如，将Widget转换为const Widget或转换为widget&。（如果你没有做过任何TMP，那就太糟糕了，因为如果你想成为一个真正高效的c++程序员，你至少需要熟悉c++这方面的基础知识，你可以在Item 23和Item 27中看到TMP的实际示例，包括我刚才提到的类型转换这种的。）
 
