@@ -50,7 +50,7 @@
         …
     };
 ```
-这里，MyAllocList<T>::type指涉一个依赖于模板类型参数(T)的类型。因此，MyAllocList<T>::type是一个从属类型。c++的许多讨人喜欢的规则之一就是从属类型的名称前必须加上type name。
+这里，MyAllocList<T>::type指涉一个依赖于模板类型参数(T)的类型。因此，MyAllocList<T>::type是一个从属类型。c++的许多讨人喜欢的规则之一就是从属类型的名称前必须加上typename。
 
 如果MyAllocList被定义为alias template，这种对typename的需求消失了(就像麻烦的“::type”后缀一样):
 ```cpp
