@@ -6,7 +6,7 @@
         std::unique_ptr<std::unordered_map<std::string, std::string>>
         UPtrMapSS;
 ```
-但是typedefs实在是太C++98了。当然，它们在C++11中也能使用，但是c++11也提供了alias declarations：
+但是typedefs实在是太C++98了。当然，它们在C++11中也能使用，但是c++11提供了alias declarations：
 ```cpp
     using UPtrMapSS =
         std::unique_ptr<std::unordered_map<std::string, std::string>>;
@@ -29,19 +29,19 @@
 ```cpp
     template<typename T>                            // MyAllocList<T>
     using MyAllocList = std::list<T, MyAlloc<T>>;   // is synonym for
-                                                    // std::list<T,
-                                                    // MyAlloc<T>>
+                                                    // std::list<T,MyAlloc<T>>
+                                               
     MyAllocList<Widget> lw;                         // client code
 ```
 使用typedef，你几乎必须从头开始创建蛋糕：
 ```cpp
     template<typename T>                             // MyAllocList<T>::type
     struct MyAllocList {                             // is synonym for
-        typedef std::list<T, MyAlloc<T>> type;       // std::list<T,
-    };                                               // MyAlloc<T>>
+        typedef std::list<T, MyAlloc<T>> type;       // std::list<T, MyAlloc<T>>
+    };                                               
     MyAllocList<Widget>::type lw;                    // client code
 ```
-它变得更糟，如果你想在模板中使用typedef来创建一个链表，而链表中保存着由模板形参决定来类型的对象，你必须在typedef名之前加上typename：
+这变得更糟，如果你想在模板中使用typedef来创建一个链表，而链表中保存着由模板形参来决定类型的对象，你必须在typedef名之前加上typename：
 ```cpp
     template<typename T>
     class Widget {                                 // Widget<T> contains
