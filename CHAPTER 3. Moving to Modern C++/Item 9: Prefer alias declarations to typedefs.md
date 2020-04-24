@@ -64,9 +64,9 @@
          …                                                  // no "::type"
     };
 ```
-对你来说，MyAllocList\<T\>（即使用alias template）可能看起来就像依赖于模板参数T的MyAllocList<T>::type（即使用typedef）一样，但你不是一个编译器。当编译器处理Widget模板并遇到使用MyAllocList\<T\>（即使用alias template），他们知道MyAllocList\<T\>是一个类型的名称，因为MyAllocList是一个alias template：它必须命名一个类型。因此，MyAllocList\<T\>是一个non-dependent类型，不需要也不允许使用typename说明符。
+对你来说，MyAllocList\<T\>（即使用alias template）可能看起来就像依赖于模板参数T的MyAllocList<T>::type（即使用嵌套的typedef）一样，但你不是一个编译器。当编译器处理Widget模板并遇到使用MyAllocList\<T\>（即使用alias template），他们知道MyAllocList\<T\>是一个类型的名称，因为MyAllocList是一个alias template：它必须命名一个类型。因此，MyAllocList\<T\>是一个non-dependent类型，不需要也不允许使用typename说明符。
 
-相反地，编译器在Widget模板内部看到MyAllocList<T>::type(即使用嵌套的typedef)时，他们不能确定它是否命名了一种类型，因为当MyAllocList<T>::type指涉的不是一个类型而是其它东西时，那儿可能有一个他们还没有看到的MyAllocList的特化版本。这听起来很疯狂，但是不要因为这种可能性而责怪编译器，是知道这种可能性的人类制造了这样的代码。
+另一方面，编译器在Widget模板内部看到MyAllocList\<T\>::type（即使用嵌套的typedef）时，他们不能确定它是否代表一种类型，因为当MyAllocList\<T\>::type指涉的不是一个类型而是其它东西时，那儿可能有一个他们还没有看到的MyAllocList的特化版本。这听起来很疯狂，但是不要因为这种可能性而责怪编译器，是了解这种可能性的人类制造了这样的代码。
 
 例如，一些被误导的灵魂可能调制了这样的东西:
 ```cpp
